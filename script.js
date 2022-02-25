@@ -1,20 +1,12 @@
 class Tile {
-  constructor(x, y, board) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.mark = "";
-    this.board = board;
-    this.element = document.createElement("td");
-    this.element.addEventListener("click", () => this.click());
-  }
-
-  click() {
-    this.board.click(this.x, this.y);
   }
 
   update(mark) {
     this.mark = mark;
-    this.element.innerHTML = this.mark;
   }
 
   isBlank() {
@@ -23,24 +15,14 @@ class Tile {
 }
 
 class Board {
-  constructor(callback) {
-    this.callback = callback;
-    this.tiles = [];
+  constructor() {
     this.status = "";
-    this.element = document.createElement("div");
-    this.table = document.createElement("table");
-    this.message = document.createElement("h1");
-    this.element.appendChild(this.table);
-    this.element.appendChild(this.message);
+    this.tiles = [];
     for (let y = 0; y < 3; y++) {
       this.tiles[y] = [];
-      let tr = document.createElement("tr");
-      this.table.appendChild(tr);
       for (let x = 0; x < 3; x++) {
-        let td = document.createElement("td");
-        let tile = new Tile(x, y, this);
+        let tile = new Tile(x, y);
         this.tiles[y][x] = tile;
-        tr.appendChild(tile.element);
       }
     }
   }
@@ -51,10 +33,10 @@ class Board {
 
   judgeWin(mark) {
     let lines = [];
-    lines = lines.concat([0,1,2].map(x => [0,1,2].map(y => [x, y])));
-    lines = lines.concat([0,1,2].map(y => [0,1,2].map(x => [x, y])));
-    lines = lines.concat([[0,1,2].map(i => [i, i])]);
-    lines = lines.concat([[0,1,2].map(i => [i, 2-i])]);
+    lines = lines.concat([0, 1, 2].map(x => [0, 1, 2].map(y => [x, y])));
+    lines = lines.concat([0, 1, 2].map(y => [0, 1, 2].map(x => [x, y])));
+    lines = lines.concat([[0, 1, 2].map(i => [i, i])]);
+    lines = lines.concat([[0, 1, 2].map(i => [i, 2 - i])]);
 
     return lines.some(line => {
       return line.every(p => {
@@ -67,15 +49,13 @@ class Board {
 
   updateStatus(status) {
     this.status = status;
-    this.message.innerHTML = status;
-    this.callback();
   }
 
   click(x, y) {
     if (this.status !== '') {
       return;
     }
-    
+
     let tile = this.tiles[y][x];
     if (!tile.isBlank()) {
       return;
@@ -103,14 +83,53 @@ class Board {
   }
 }
 
-function random(min, max) {
-  return min + Math.floor(Math.random() * (max + 1 - min));
+class Game {
+  constructor(id) {
+    this.container = document.getElementById("container");
+    this.start();
+  }
+
+  start() {
+    this.board = new Board();
+
+    this.boardDiv = document.createElement("div");
+    let table = document.createElement("table");
+    let h1 = document.createElement("h1");
+
+    this.container.appendChild(this.boardDiv);
+    this.boardDiv.appendChild(table);
+    this.boardDiv.appendChild(h1);
+
+    for (let y = 0; y < 3; y++) {
+      let tr = document.createElement("tr");
+      table.appendChild(tr);
+      for (let x = 0; x < 3; x++) {
+        let td = document.createElement("td");
+        tr.appendChild(td);
+        td.addEventListener("click", () => {
+          this.board.click(x, y);
+          this.refresh();
+        });
+      }
+    }
+  }
+
+  refresh() {
+    for (let y = 0; y < 3; y++) {
+      let tr = this.boardDiv.getElementsByTagName("tr")[y];
+      for (let x = 0; x < 3; x++) {
+        let td = tr.getElementsByTagName("td")[x];
+        td.innerText = this.board.tiles[y][x].mark;
+      }
+    }
+
+    let h1 = this.boardDiv.getElementsByTagName("h1")[0];
+    h1.innerText = this.board.status;
+
+    if (this.board.status !== "") {
+      this.start();
+    }
+  }
 }
 
-function initialize() {
-  let container = document.getElementById("container");
-  let board = new Board(() => initialize());
-  container.appendChild(board.element);
-}
-
-initialize();
+new Game("container");
