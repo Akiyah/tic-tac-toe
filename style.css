@@ -1,7 +1,3 @@
-.container {
-  display: flex;
-}
-
 td {
   border: solid thin gray;
   text-align: center;
@@ -13,4 +9,18 @@ td {
 table {
   border: solid thin gray;
   margin: 10px;
+}
+
+div#container div {
+  border: solid thin gray;
+  margin: 10px;
+  height: 250px;
+}
+
+div#container {
+  border: solid thin green;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

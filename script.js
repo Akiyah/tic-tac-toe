@@ -23,7 +23,8 @@ class Tile {
 }
 
 class Board {
-  constructor() {
+  constructor(callback) {
+    this.callback = callback;
     this.tiles = [];
     this.status = "";
     this.element = document.createElement("div");
@@ -64,13 +65,10 @@ class Board {
     });
   }
 
-  updateMassage(text) {
-    this.message.innerHTML = text;
-  }
-
   updateStatus(status) {
     this.status = status;
     this.message.innerHTML = status;
+    this.callback();
   }
 
   click(x, y) {
@@ -111,7 +109,7 @@ function random(min, max) {
 
 function initialize() {
   let container = document.getElementById("container");
-  let board = new Board();
+  let board = new Board(() => initialize());
   container.appendChild(board.element);
 }
 
