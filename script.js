@@ -3,13 +3,9 @@ const η = 0.1;
 const ε0 = 0.5;
 
 class Tile {
-  constructor(x, y) {
+  constructor(x, y, mark = " ") {
     this.x = x;
     this.y = y;
-    this.mark = " ";
-  }
-
-  update(mark) {
     this.mark = mark;
   }
 
@@ -19,28 +15,41 @@ class Tile {
 }
 
 class Board {
-  constructor() {
-    this.status = "";
-    this.tiles = [];
-    for (let y = 0; y < 3; y++) {
-      this.tiles[y] = [];
-      for (let x = 0; x < 3; x++) {
-        let tile = new Tile(x, y);
-        this.tiles[y][x] = tile;
-      }
-    }
+  constructor(tiles = [0, 1, 2].map(y => [0, 1, 2].map(x => new Tile(x, y)))) {
+    this.tiles = tiles;
   }
 
-  toBoardString() {
+  step(x, y, mark) {
+    let tiles = [0, 1, 2].map(y => [0, 1, 2].map(x => this.tiles[y][x]));
+    tiles[y][x] = new Tile(x, y, mark);
+    return new Board(tiles);
+  }
+
+  randomStep(mark) {
+    let tile = this.randomBlankTile();
+    return this.step(tile.x, tile.y, mark);
+  }
+
+  isBlank(x, y) {
+    return this.tiles[y][x].isBlank();
+  }
+
+  blankTiles() {
+    return this.tiles.flat().filter(tile => tile.isBlank());
+  }
+
+  randomBlankTile() {
+    let tiles = this.blankTiles();
+    let i = Math.floor(Math.random() * tiles.length);
+    return tiles[i];
+  }
+
+  key() {
     return this.tiles.map(row => {
       return row.map(tile => {
         return tile.mark;
       }).join("");
     }).join("\n");
-  }
-
-  blankTiles() {
-    return this.tiles.flat().filter(tile => tile.isBlank());
   }
 
   judgeWin(mark) {
@@ -59,50 +68,28 @@ class Board {
     });
   }
 
-  updateStatus(status) {
-    this.status = status;
-  }
-
-  click(x, y) {
-    if (this.status !== '') {
-      return;
-    }
-
-    let tile = this.tiles[y][x];
-    if (!tile.isBlank()) {
-      return;
-    }
-    this.tiles[y][x].update("o");
-
+  status() {
     if (this.judgeWin("o")) {
-      this.updateStatus("o win");
-      return;
+      return "o win";
     }
-
-    let tiles = this.blankTiles();
-    if (tiles.length == 0) {
-      this.updateStatus("draw");
-      return;
-    }
-
-    let i = Math.floor(Math.random() * tiles.length);
-    tiles[i].update("x");
 
     if (this.judgeWin("x")) {
-      this.updateStatus("x win");
-      return;
+      return "x win";
     }
+
+    if (this.blankTiles().length == 0) {
+      return "draw";
+    }
+
+    return "";
   }
 }
 
 class Game {
   constructor(id) {
-    this.container = document.getElementById("container");
-    this.start();
-  }
+    this.container = document.getElementById(id);
 
-  start() {
-    let board = new Board();
+    this.board = new Board();
 
     this.boardDiv = document.createElement("div");
     let table = document.createElement("table");
@@ -119,37 +106,49 @@ class Game {
         let td = document.createElement("td");
         tr.appendChild(td);
         td.addEventListener("click", () => {
-          if (board.status !== "") {
-            return;
-          }
-          board.click(x, y);
-          console.log(board.toBoardString());
-          this.refresh(board);
+          this.step(x, y);
         });
       }
     }
   }
 
-  step(action) {
-    return [];
+  step(x, y) {
+    if (!this.board.isBlank(x, y)) {
+      return;
+    }
+    if (this.board.status() !== "") {
+      return;
+    }
+
+    let board2 = this.board.step(x, y, "o");
+    if (board2.status() !== "") {
+      this.board = board2;
+      this.refresh();
+      return;
+    }
+
+    let board3 = board2.randomStep("x");
+
+    this.board = board3;
+    this.refresh();
+    return;
   }
 
-  refresh(board) {
+  refresh() {
     for (let y = 0; y < 3; y++) {
       let tr = this.boardDiv.getElementsByTagName("tr")[y];
       for (let x = 0; x < 3; x++) {
         let td = tr.getElementsByTagName("td")[x];
-        td.innerText = board.tiles[y][x].mark;
+        td.innerText = this.board.tiles[y][x].mark;
       }
     }
 
     let h1 = this.boardDiv.getElementsByTagName("h1")[0];
-    h1.innerText = board.status;
-
-    if (board.status !== "") {
-      this.start();
-    }
+    h1.innerText = this.board.status();
   }
 }
 
-new Game("container");
+function restart() {
+  new Game("container");
+}
+window.onload = restart;
