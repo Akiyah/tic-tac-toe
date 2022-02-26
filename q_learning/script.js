@@ -233,7 +233,8 @@ function show(qTable) {
 
   for (let i = 0; i < 9; i++) {
     let h1 = document.createElement("h1");
-    h1.innerText = i;
+    h1.id = `count${i}`;
+    h1.innerText = `count${i}`;
     document.body.appendChild(h1);
 
     console.log(i);
