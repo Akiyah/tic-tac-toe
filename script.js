@@ -2,7 +2,7 @@ class Tile {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.mark = "";
+    this.mark = " ";
   }
 
   update(mark) {
@@ -10,7 +10,7 @@ class Tile {
   }
 
   isBlank() {
-    return this.mark === "";
+    return this.mark === " ";
   }
 }
 
@@ -25,6 +25,14 @@ class Board {
         this.tiles[y][x] = tile;
       }
     }
+  }
+
+  toBoardString() {
+    return this.tiles.map(row => {
+      return row.map(tile => {
+        return tile.mark;
+      }).join("");
+    }).join("\n");
   }
 
   blankTiles() {
@@ -108,6 +116,7 @@ class Game {
         tr.appendChild(td);
         td.addEventListener("click", () => {
           this.board.click(x, y);
+          console.log(this.board.toBoardString());
           this.refresh();
         });
       }
