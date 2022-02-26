@@ -11,13 +11,13 @@ table {
   margin: 10px;
 }
 
-div#container div {
+div.container div {
   border: solid thin gray;
   margin: 10px;
   height: 250px;
 }
 
-div#container {
+div.container {
   border: solid thin green;
   margin: 10px;
   display: flex;

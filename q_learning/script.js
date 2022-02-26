@@ -197,30 +197,27 @@ class QLearning {
   }
 }
 
-function show(id, qTable) {
-  let result = document.getElementById(id);
+function showTable(container, key, values) {
+  let table = document.createElement("table");
+  container.appendChild(table);
 
-  for (let key in qTable) {
-    let values = qTable[key];
-    let table = document.createElement("table");
-    result.appendChild(table);
+  let tiles = key.split("\n").map(row => row.split(""));
+  for (let y = 0; y < 3; y++) {
+    let tr = document.createElement("tr");
+    table.appendChild(tr);
+    for (let x = 0; x < 3; x++) {
+      let td = document.createElement("td");
+      tr.appendChild(td);
 
-    let tiles = key.split("\n").map(row => row.split(""));
-    for (let y = 0; y < 3; y++) {
-      let tr = document.createElement("tr");
-      table.appendChild(tr);
-      for (let x = 0; x < 3; x++) {
-        let td = document.createElement("td");
-        tr.appendChild(td);
-
-        let mark = tiles[y][x];
-        let value = values[y][x];
-        td.innerText = mark;
-        if (mark === " ") {
-          td.innerText = value.toFixed(2);
-          td.style.color = `rgba(0, 0, 0, 0.5)`;
-        }
-        if (0 < value) {
+      let mark = tiles[y][x];
+      let value = values[y][x];
+      td.innerText = mark;
+      if (mark === " ") {
+        td.innerText = value.toFixed(2);
+        td.style.color = `rgba(0, 0, 0, 0.5)`;
+        if (0 === value) {
+          td.style.backgroundColor = `rgba(0, 0, 0, 0.3)`;
+        } else if (0 < value) {
           let a = Math.abs(value);
           td.style.backgroundColor = `rgba(0, 255, 0, ${a})`;
         } else {
@@ -232,11 +229,35 @@ function show(id, qTable) {
   }
 }
 
+function show(qTable) {
+
+  for (let i = 0; i < 9; i++) {
+    let h1 = document.createElement("h1");
+    h1.innerText = i;
+    document.body.appendChild(h1);
+
+    console.log(i);
+    let container = document.createElement("div");
+    container.className = "container"
+    document.body.appendChild(container);
+
+    for (let key in qTable) {
+      let values = qTable[key];
+
+      var count = ( key.match( / /g ) || [] ).length;
+      if ((9 - count) === i) {
+        showTable(container, key, values);
+      }
+    }
+  }
+  console.log("end");
+}
+
 window.onload = () => {
   let qLarning = new QLearning();
   qLarning.learn();
   //console.log(qLarning);
   //console.log(qLarning.table);
   console.log(Object.keys(qLarning.table).length);
-  show('container', qLarning.table);
+  show(qLarning.table);
 };
