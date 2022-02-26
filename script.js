@@ -1,3 +1,7 @@
+const γ = 0.9;
+const η = 0.1;
+const ε0 = 0.5;
+
 class Tile {
   constructor(x, y) {
     this.x = x;
@@ -98,7 +102,7 @@ class Game {
   }
 
   start() {
-    this.board = new Board();
+    let board = new Board();
 
     this.boardDiv = document.createElement("div");
     let table = document.createElement("table");
@@ -115,27 +119,34 @@ class Game {
         let td = document.createElement("td");
         tr.appendChild(td);
         td.addEventListener("click", () => {
-          this.board.click(x, y);
-          console.log(this.board.toBoardString());
-          this.refresh();
+          if (board.status !== "") {
+            return;
+          }
+          board.click(x, y);
+          console.log(board.toBoardString());
+          this.refresh(board);
         });
       }
     }
   }
 
-  refresh() {
+  step(action) {
+    return [];
+  }
+
+  refresh(board) {
     for (let y = 0; y < 3; y++) {
       let tr = this.boardDiv.getElementsByTagName("tr")[y];
       for (let x = 0; x < 3; x++) {
         let td = tr.getElementsByTagName("td")[x];
-        td.innerText = this.board.tiles[y][x].mark;
+        td.innerText = board.tiles[y][x].mark;
       }
     }
 
     let h1 = this.boardDiv.getElementsByTagName("h1")[0];
-    h1.innerText = this.board.status;
+    h1.innerText = board.status;
 
-    if (this.board.status !== "") {
+    if (board.status !== "") {
       this.start();
     }
   }
