@@ -1,10 +1,6 @@
 class Board {
-  constructor(
-    marks = this.mapPoints((x, y) => "_"),
-    k = 0
-  ) {
+  constructor(marks = this.mapPoints((x, y) => "_")) {
     this.marks = marks;
-    this.k = k;
   }
 
   mapPoints(callback) {
@@ -14,7 +10,7 @@ class Board {
   step(x, y, mark) {
     let marks = this.mapPoints((x, y) => this.marks[y][x]);
     marks[y][x] = mark;
-    return new Board(marks, this.k + 1);
+    return new Board(marks);
   }
 
   key() {

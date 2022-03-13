@@ -9,25 +9,20 @@ describe('constructor', () => {
       ["_", "_", "_"],
       ["_", "_", "_"]
     ]);
-    expect(board.k).toEqual(0);
   });
 
   test('with params', () => {
-    const board = new Board(
-      [
-        ["_", "_", "_"],
-        ["_", "_", "_"],
-        ["_", "o", "_"],
-      ],
-      1
-    );
+    const board = new Board([
+      ["_", "_", "_"],
+      ["_", "_", "_"],
+      ["_", "o", "_"]
+    ]);
 
     expect(board.marks).toEqual([
       ["_", "_", "_"],
       ["_", "_", "_"],
       ["_", "o", "_"]
     ]);
-    expect(board.k).toEqual(1);
   });
 });
 
@@ -51,7 +46,6 @@ test('#step', () => {
     ["_", "_", "_"],
     ["_", "o", "_"]
   ]);
-  expect(board.k).toEqual(1);
 
   board = board.step(0, 1, 'x');
   expect(board.marks).toEqual([
@@ -59,7 +53,6 @@ test('#step', () => {
     ["x", "_", "_"],
     ["_", "o", "_"]
   ]);
-  expect(board.k).toEqual(2);
 });
 
 test('#key', () => {
@@ -105,46 +98,37 @@ test('#random', () => {
 
 describe('#judgeWin', () => {
   test('no winners', () => {
-    let board = new Board();
+    const board = new Board();
     expect(board.judgeWin('o')).toBeFalsy();
     expect(board.judgeWin('x')).toBeFalsy();
   });
 
   test('o win', () => {
-    const board = new Board(
-      [
-        ["_", "o", "_"],
-        ["x", "o", "x"],
-        ["_", "o", "_"],
-      ],
-      5
-    );
+    const board = new Board([
+      ["_", "o", "_"],
+      ["x", "o", "x"],
+      ["_", "o", "_"]
+    ]);
     expect(board.judgeWin('o')).toBeTruthy();
     expect(board.judgeWin('x')).toBeFalsy();
   });
 
   test('x win', () => {
-    const board = new Board(
-      [
-        ["o", "_", "x"],
-        ["_", "x", "_"],
-        ["x", "o", "o"],
-      ],
-      6
-    );
+    const board = new Board([
+      ["o", "_", "x"],
+      ["_", "x", "_"],
+      ["x", "o", "o"]
+    ]);
     expect(board.judgeWin('o')).toBeFalsy();
     expect(board.judgeWin('x')).toBeTruthy();
   });
 
   test('draw', () => {
-    const board = new Board(
-      [
-        ["o", "x", "o"],
-        ["x", "o", "o"],
-        ["x", "o", "x"],
-      ],
-      9
-    );
+    const board = new Board([
+      ["o", "x", "o"],
+      ["x", "o", "o"],
+      ["x", "o", "x"]
+    ]);
     expect(board.judgeWin('o')).toBeFalsy();
     expect(board.judgeWin('x')).toBeFalsy();
   });
@@ -158,38 +142,29 @@ describe('#status', () => {
   });
 
   test('o win', () => {
-    const board = new Board(
-      [
-        ["_", "o", "_"],
-        ["x", "o", "x"],
-        ["_", "o", "_"],
-      ],
-      5
-    );
+    const board = new Board([
+      ["_", "o", "_"],
+      ["x", "o", "x"],
+      ["_", "o", "_"]
+    ]);
     expect(board.status()).toEqual("o win");
   });
 
   test('x win', () => {
-    const board = new Board(
-      [
-        ["o", "_", "x"],
-        ["_", "x", "_"],
-        ["x", "o", "o"],
-      ],
-      6
-    );
+    const board = new Board([
+      ["o", "_", "x"],
+      ["_", "x", "_"],
+      ["x", "o", "o"]
+    ]);
     expect(board.status()).toEqual("x win");
   });
 
   test('draw', () => {
-    const board = new Board(
-      [
-        ["o", "x", "o"],
-        ["x", "o", "o"],
-        ["x", "o", "x"],
-      ],
-      9
-    );
+    const board = new Board([
+      ["o", "x", "o"],
+      ["x", "o", "o"],
+      ["x", "o", "x"]
+    ]);
     expect(board.status()).toEqual("draw");
   });
 });
