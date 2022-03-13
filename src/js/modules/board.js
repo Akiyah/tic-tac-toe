@@ -35,19 +35,6 @@ class Board {
     return Math.floor(Math.random() * n);
   }
 
-  randomStep(mark) {
-    let tile = this.randomBlankTile();
-    let x = tile.x;
-    let y = tile.y;
-    return [this.step(x, y, mark), x, y];
-  }
-
-  randomBlankTile() {
-    let tiles = this.blankTiles();
-    let i = Math.floor(Math.random() * tiles.length);
-    return tiles[i];
-  }
-
   judgeWin(mark) {
     let lines = [];
     lines = lines.concat([0, 1, 2].map(x => [0, 1, 2].map(y => [x, y])));
@@ -59,7 +46,7 @@ class Board {
       return line.every(p => {
         let x = p[0];
         let y = p[1];
-        return this.tiles[y][x].mark == mark;
+        return this.marks[y][x] == mark;
       });
     });
   }
@@ -73,7 +60,7 @@ class Board {
       return "x win";
     }
 
-    if (this.blankTiles().length == 0) {
+    if (this.blankPoints().length == 0) {
       return "draw";
     }
 

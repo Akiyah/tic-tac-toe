@@ -102,3 +102,37 @@ test('#random', () => {
   expect(Math.min(...results)).toBe(0);
   expect(Math.max(...results)).toBe(9);
 });
+
+describe('#judgeWin', () => {
+  test('no winners', () => {
+    let board = new Board();
+    expect(board.judgeWin('o')).toBeFalsy();
+    expect(board.judgeWin('x')).toBeFalsy();
+  });
+
+  test('o win', () => {
+    const board = new Board(
+      [
+        ["_", "o", "_"],
+        ["x", "o", "x"],
+        ["_", "o", "_"],
+      ],
+      1
+    );
+    expect(board.judgeWin('o')).toBeTruthy();
+    expect(board.judgeWin('x')).toBeFalsy();
+  });
+
+  test('x win', () => {
+    const board = new Board(
+      [
+        ["o", "_", "x"],
+        ["_", "x", "_"],
+        ["x", "o", "o"],
+      ],
+      1
+    );
+    expect(board.judgeWin('o')).toBeFalsy();
+    expect(board.judgeWin('x')).toBeTruthy();
+  });
+});
