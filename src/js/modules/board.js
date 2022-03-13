@@ -72,5 +72,5 @@ class Board {
     return "";
   }
 }
- 
+
 module.exports = Board;
