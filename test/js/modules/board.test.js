@@ -1,36 +1,63 @@
 const Board = require('../../../src/js/modules/board');
-const Tile = require('../../../src/js/modules/tile');
 
-test('constructor', () => {
-  const board = new Board();
+describe('constructor', () => {
+  test('no params', () => {
+    const board = new Board();
 
-  expect(board.tiles).toEqual([
-    [new Tile(0, 0), new Tile(1, 0), new Tile(2, 0)],
-    [new Tile(0, 1), new Tile(1, 1), new Tile(2, 1)],
-    [new Tile(0, 2), new Tile(1, 2), new Tile(2, 2)],
-  ]);
+    expect(board.marks).toEqual([
+      ["_", "_", "_"],
+      ["_", "_", "_"],
+      ["_", "_", "_"]
+    ]);
+    expect(board.k).toEqual(0);
+  });
+
+  test('with params', () => {
+    const board = new Board(
+      [
+        ["_", "_", "_"],
+        ["_", "_", "_"],
+        ["_", "o", "_"],
+      ],
+      1
+    );
+
+    expect(board.marks).toEqual([
+      ["_", "_", "_"],
+      ["_", "_", "_"],
+      ["_", "o", "_"]
+    ]);
+    expect(board.k).toEqual(1);
+  });
 });
 
 test('#step', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
-  expect(board.tiles).toEqual([
-    [new Tile(0, 0), new Tile(1, 0), new Tile(2, 0)],
-    [new Tile(0, 1), new Tile(1, 1), new Tile(2, 1)],
-    [new Tile(0, 2), new Tile(1, 2, 'o'), new Tile(2, 2)],
+  expect(board.marks).toEqual([
+    ["_", "_", "_"],
+    ["_", "_", "_"],
+    ["_", "o", "_"]
   ]);
+  expect(board.k).toEqual(1);
 
   board = board.step(0, 1, 'x');
-  expect(board.tiles).toEqual([
-    [new Tile(0, 0), new Tile(1, 0), new Tile(2, 0)],
-    [new Tile(0, 1, 'x'), new Tile(1, 1), new Tile(2, 1)],
-    [new Tile(0, 2), new Tile(1, 2, 'o'), new Tile(2, 2)],
+  expect(board.marks).toEqual([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
   ]);
+  expect(board.k).toEqual(2);
 });
 
 test('#key', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
   board = board.step(0, 1, 'x');
-  expect(board.key()).toEqual("   \nx  \n o ");
+  console.log(board.key());
+  expect(board.key()).toEqual(
+    "___" + "\n" +
+    "x__" + "\n" +
+    "_o_"
+  );
 });

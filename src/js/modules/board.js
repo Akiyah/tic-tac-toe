@@ -1,14 +1,24 @@
-const Tile = require("./tile");
-
 class Board {
-  constructor(tiles = [0, 1, 2].map(y => [0, 1, 2].map(x => new Tile(x, y)))) {
-    this.tiles = tiles;
+  constructor(
+    marks = [0, 1, 2].map(y => [0, 1, 2].map(x => "_")),
+    k = 0
+  ) {
+    this.marks = marks;
+    this.k = k;
   }
 
   step(x, y, mark) {
-    let tiles = [0, 1, 2].map(y => [0, 1, 2].map(x => this.tiles[y][x]));
-    tiles[y][x] = new Tile(x, y, mark);
-    return new Board(tiles);
+    let marks = [0, 1, 2].map(y => [0, 1, 2].map(x => this.marks[y][x]));
+    marks[y][x] = mark;
+    return new Board(marks, this.k + 1);
+  }
+
+  key() {
+    return this.marks.map(row => {
+      return row.map(mark => {
+        return mark;
+      }).join("");
+    }).join("\n");
   }
 
   randomStep(mark) {
@@ -30,14 +40,6 @@ class Board {
     let tiles = this.blankTiles();
     let i = Math.floor(Math.random() * tiles.length);
     return tiles[i];
-  }
-
-  key() {
-    return this.tiles.map(row => {
-      return row.map(tile => {
-        return tile.mark;
-      }).join("");
-    }).join("\n");
   }
 
   judgeWin(mark) {
