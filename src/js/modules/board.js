@@ -31,6 +31,10 @@ class Board {
     return this.mapPoints((x, y) => this.isBlank(x, y) ? [x, y] : null).flat().filter(p => p);
   }
 
+  random(n) {
+    return Math.floor(Math.random() * n);
+  }
+
   randomStep(mark) {
     let tile = this.randomBlankTile();
     let x = tile.x;

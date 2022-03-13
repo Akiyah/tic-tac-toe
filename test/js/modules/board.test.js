@@ -92,3 +92,13 @@ test('#blankPoints', () => {
     [0, 2],         [2, 2]
   ]);
 });
+
+test('#random', () => {
+  let board = new Board();
+  let results = [];
+  for (let i = 0; i < 100; i++) {
+    results.push(board.random(10));
+  }
+  expect(Math.min(...results)).toBe(0);
+  expect(Math.max(...results)).toBe(9);
+});
