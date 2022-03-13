@@ -1,24 +1,34 @@
 class Board {
   constructor(
-    marks = [0, 1, 2].map(y => [0, 1, 2].map(x => "_")),
+    marks = this.mapPoints((x, y) => "_"),
     k = 0
   ) {
     this.marks = marks;
     this.k = k;
   }
 
+  mapPoints(callback) {
+    return [0, 1, 2].map(y => [0, 1, 2].map(x => callback(x, y)));
+  }
+
   step(x, y, mark) {
-    let marks = [0, 1, 2].map(y => [0, 1, 2].map(x => this.marks[y][x]));
+    let marks = this.mapPoints((x, y) => this.marks[y][x]);
     marks[y][x] = mark;
     return new Board(marks, this.k + 1);
   }
 
   key() {
-    return this.marks.map(row => {
-      return row.map(mark => {
-        return mark;
-      }).join("");
-    }).join("\n");
+    return this.marks.map(row =>
+      row.map(mark => mark).join("")
+    ).join("\n");
+  }
+
+  isBlank(x, y) {
+    return this.marks[y][x] === "_";
+  }
+
+  blankPoints() {
+    return this.mapPoints((x, y) => this.isBlank(x, y) ? [x, y] : null).flat().filter(p => p);
   }
 
   randomStep(mark) {
@@ -26,14 +36,6 @@ class Board {
     let x = tile.x;
     let y = tile.y;
     return [this.step(x, y, mark), x, y];
-  }
-
-  isBlank(x, y) {
-    return this.tiles[y][x].isBlank();
-  }
-
-  blankTiles() {
-    return this.tiles.flat().filter(tile => tile.isBlank());
   }
 
   randomBlankTile() {

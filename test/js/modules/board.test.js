@@ -31,6 +31,18 @@ describe('constructor', () => {
   });
 });
 
+test('#mapPoints', () => {
+  let board = new Board();
+  board = board.step(1, 2, 'o');
+  board = board.step(0, 1, 'x');
+  const result = board.mapPoints((x, y) => [x, y]);
+  expect(result).toEqual([
+    [[0, 0], [1, 0], [2, 0]],
+    [[0, 1], [1, 1], [2, 1]],
+    [[0, 2], [1, 2], [2, 2]]
+  ]);
+});
+
 test('#step', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
@@ -54,10 +66,29 @@ test('#key', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
   board = board.step(0, 1, 'x');
-  console.log(board.key());
   expect(board.key()).toEqual(
     "___" + "\n" +
     "x__" + "\n" +
     "_o_"
   );
+});
+
+test('#isBlank', () => {
+  let board = new Board();
+  board = board.step(1, 2, 'o');
+  board = board.step(0, 1, 'x');
+  expect(board.isBlank(0, 0)).toBeTruthy();
+  expect(board.isBlank(1, 2)).toBeFalsy();
+  expect(board.isBlank(0, 1)).toBeFalsy();
+});
+
+test('#blankPoints', () => {
+  let board = new Board();
+  board = board.step(1, 2, 'o');
+  board = board.step(0, 1, 'x');
+  expect(board.blankPoints()).toEqual([
+    [0, 0], [1, 0], [2, 0],
+            [1, 1], [2, 1],
+    [0, 2],         [2, 2]
+  ]);
 });
