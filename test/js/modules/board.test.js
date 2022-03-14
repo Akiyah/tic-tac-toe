@@ -38,6 +38,17 @@ test('#mapPoints', () => {
   ]);
 });
 
+test('#mark', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.mark(0, 0)).toEqual("_");
+  expect(board.mark(1, 2)).toEqual("o");
+  expect(board.mark(0, 1)).toEqual("x");
+});
+
 test('#step', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
@@ -81,8 +92,34 @@ test('#blankPoints', () => {
   board = board.step(0, 1, 'x');
   expect(board.blankPoints()).toEqual([
     [0, 0], [1, 0], [2, 0],
-            [1, 1], [2, 1],
-    [0, 2],         [2, 2]
+    [1, 1], [2, 1],
+    [0, 2], [2, 2]
+  ]);
+});
+
+test('#rotate', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.rotate().marks).toEqual([
+    ["_", "x", "_"],
+    ["o", "_", "_"],
+    ["_", "_", "_"]
+  ]);
+});
+
+test('#turn', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.turn().marks).toEqual([
+    ["_", "_", "_"],
+    ["_", "_", "x"],
+    ["_", "o", "_"]
   ]);
 });
 
@@ -133,7 +170,6 @@ describe('#judgeWin', () => {
     expect(board.judgeWin('x')).toBeFalsy();
   });
 });
-
 
 describe('#status', () => {
   test('no winners', () => {

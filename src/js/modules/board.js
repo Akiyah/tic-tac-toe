@@ -7,8 +7,12 @@ class Board {
     return [0, 1, 2].map(y => [0, 1, 2].map(x => callback(x, y)));
   }
 
+  mark(x, y) {
+    return this.marks[y][x];
+  }
+
   step(x, y, mark) {
-    let marks = this.mapPoints((x, y) => this.marks[y][x]);
+    let marks = this.mapPoints((x0, y0) => this.mark(x0, y0));
     marks[y][x] = mark;
     return new Board(marks);
   }
@@ -20,16 +24,28 @@ class Board {
   }
 
   isBlank(x, y) {
-    return this.marks[y][x] === "_";
+    return this.mark(x, y) === "_";
   }
 
   blankPoints() {
     return this.mapPoints((x, y) => this.isBlank(x, y) ? [x, y] : null).flat().filter(p => p);
   }
 
+  rotate() {
+    const marks = this.mapPoints((x, y) => this.mark(y, 2 - x));
+    return new Board(marks);
+  }
+
+  turn() {
+    const marks = this.mapPoints((x, y) => this.mark(2 - x, y));
+    return new Board(marks);
+  }
+
   random(n) {
     return Math.floor(Math.random() * n);
   }
+
+  // judgeLines() {
 
   judgeWin(mark) {
     let lines = [];
@@ -42,10 +58,12 @@ class Board {
       return line.every(p => {
         let x = p[0];
         let y = p[1];
-        return this.marks[y][x] == mark;
+        return this.mark(x, y) == mark;
       });
     });
   }
+
+  // judgeDraw() {
 
   status() {
     if (this.judgeWin("o")) {
