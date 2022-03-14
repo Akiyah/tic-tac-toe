@@ -11,6 +11,17 @@ class Board {
     return this.marks[y][x];
   }
 
+  markIndex(x, y) {
+    const mark = this.mark(x, y);
+    if (mark === '_') {
+      return 0;
+    } else if (mark === 'o') {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
   step(x, y, mark) {
     let marks = this.mapPoints((x0, y0) => this.mark(x0, y0));
     marks[y][x] = mark;
@@ -21,6 +32,10 @@ class Board {
     return this.marks.map(row =>
       row.map(mark => mark).join("")
     ).join("\n");
+  }
+
+  index() {
+    return this.mapPoints((x, y) => this.markIndex(x, y) * 3 ** (x + 3 * y)).flat().reduce((s, e) => s + e);
   }
 
   isBlank(x, y) {

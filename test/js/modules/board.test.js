@@ -49,6 +49,17 @@ test('#mark', () => {
   expect(board.mark(0, 1)).toEqual("x");
 });
 
+test('#markIndex', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.markIndex(0, 0)).toBe(0);
+  expect(board.markIndex(1, 2)).toBe(1);
+  expect(board.markIndex(0, 1)).toBe(2);
+});
+
 test('#step', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
@@ -74,6 +85,19 @@ test('#key', () => {
     "___" + "\n" +
     "x__" + "\n" +
     "_o_"
+  );
+});
+
+test('#index', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.index()).toEqual(
+    0 * 3 ** 0 + 0 * 3 ** 1 + 0 * 3 ** 2 +
+    2 * 3 ** 3 + 0 * 3 ** 4 + 0 * 3 ** 5 +
+    0 * 3 ** 6 + 1 * 3 ** 7 + 0 * 3 ** 8
   );
 });
 
