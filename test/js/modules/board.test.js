@@ -147,6 +147,69 @@ test('#turn', () => {
   ]);
 });
 
+test('#translateBoards', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  const boards = board.translateBoards();
+  expect(boards.length).toBe(8);
+  expect(boards[0].marks).toEqual([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(boards[1].marks).toEqual([
+    ["_", "x", "_"],
+    ["o", "_", "_"],
+    ["_", "_", "_"]
+  ]);
+  expect(boards[2].marks).toEqual([
+    ["_", "o", "_"],
+    ["_", "_", "x"],
+    ["_", "_", "_"]
+  ]);
+  expect(boards[3].marks).toEqual([
+    ["_", "_", "_"],
+    ["_", "_", "o"],
+    ["_", "x", "_"]
+  ]);
+  expect(boards[4].marks).toEqual([
+    ["_", "_", "_"],
+    ["_", "_", "x"],
+    ["_", "o", "_"]
+  ]);
+  expect(boards[5].marks).toEqual([
+    ["_", "_", "_"],
+    ["o", "_", "_"],
+    ["_", "x", "_"]
+  ]);
+  expect(boards[6].marks).toEqual([
+    ["_", "o", "_"],
+    ["x", "_", "_"],
+    ["_", "_", "_"]
+  ]);
+  expect(boards[7].marks).toEqual([
+    ["_", "x", "_"],
+    ["_", "_", "o"],
+    ["_", "_", "_"]
+  ]);
+});
+
+test('#normalize', () => {
+  const board = new Board([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+  expect(board.normalize().marks).toEqual([
+    ["_", "x", "_"],
+    ["o", "_", "_"],
+    ["_", "_", "_"]
+  ]);
+});
+
 test('#random', () => {
   let board = new Board();
   let results = [];

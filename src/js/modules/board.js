@@ -56,6 +56,26 @@ class Board {
     return new Board(marks);
   }
 
+  translateBoards() {
+    let board = this;
+    let boards = [];
+    for (let i = 0; i < 2; i++) {
+      for (let j = 0; j < 4; j++) {
+        boards.push(board);
+        board = board.rotate();
+      }
+      board = board.turn();
+    }
+    return boards;
+  }
+
+  normalize() {
+    const boards = this.translateBoards();
+    const indexes = boards.map(board => board.index());
+    const minIndex = Math.min(...indexes);
+    return boards.find(board => board.index() === minIndex);
+  }
+
   random(n) {
     return Math.floor(Math.random() * n);
   }
