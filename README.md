@@ -8,6 +8,12 @@ https://akiyah.github.io/tic-tac-toe/
 yarn test
 ```
 
+## lint
+
+```
+yarn run eslint
+```
+
 ## 参考
 
 - https://qiita.com/thinking_vecta/items/f5b52311d2c0f6a56dc6
