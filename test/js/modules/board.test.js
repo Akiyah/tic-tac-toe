@@ -154,7 +154,7 @@ test('#translateBoards', () => {
     ["_", "o", "_"]
   ]);
   const boards = board.translateBoards();
-  expect(boards.length).toBe(8);
+  expect(boards).toHaveLength(8);
   expect(boards[0].marks).toEqual([
     ["_", "_", "_"],
     ["x", "_", "_"],

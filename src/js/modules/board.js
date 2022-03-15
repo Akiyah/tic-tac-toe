@@ -1,5 +1,5 @@
 class Board {
-  constructor(marks = this.mapPoints((x, y) => "_")) {
+  constructor(marks = this.mapPoints(() => "_")) {
     this.marks = marks;
   }
 
