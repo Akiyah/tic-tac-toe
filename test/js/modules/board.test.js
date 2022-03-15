@@ -234,14 +234,11 @@ test('#lines', () => {
   ]);
 });
 
-describe('#isWin, #isWinable, #isDraw', () => {
+describe('#isWin', () => {
   test('no winners', () => {
     const board = new Board();
     expect(board.isWin('o')).toBeFalsy();
     expect(board.isWin('x')).toBeFalsy();
-    expect(board.isWinable('o')).toBeTruthy();
-    expect(board.isWinable('x')).toBeTruthy();
-    expect(board.isDraw()).toBeFalsy();
   });
 
   test('o win', () => {
@@ -252,9 +249,6 @@ describe('#isWin, #isWinable, #isDraw', () => {
     ]);
     expect(board.isWin('o')).toBeTruthy();
     expect(board.isWin('x')).toBeFalsy();
-    expect(board.isWinable('o')).toBeTruthy();
-    expect(board.isWinable('x')).toBeTruthy();
-    expect(board.isDraw()).toBeFalsy();
   });
 
   test('x win', () => {
@@ -265,50 +259,16 @@ describe('#isWin, #isWinable, #isDraw', () => {
     ]);
     expect(board.isWin('o')).toBeFalsy();
     expect(board.isWin('x')).toBeTruthy();
-    expect(board.isWinable('o')).toBeFalsy();
-    expect(board.isWinable('x')).toBeTruthy();
-    expect(board.isDraw()).toBeFalsy();
   });
 
-  test('winable', () => {
+  test('draw?', () => {
     const board = new Board([
-      ["o", "_", "x"],
-      ["_", "_", "_"],
-      ["x", "o", "o"]
+      ["o", "x", "o"],
+      ["x", "o", "o"],
+      ["x", "o", "x"]
     ]);
     expect(board.isWin('o')).toBeFalsy();
     expect(board.isWin('x')).toBeFalsy();
-    expect(board.isWinable('o')).toBeTruthy();
-    expect(board.isWinable('x')).toBeTruthy();
-    expect(board.isDraw()).toBeFalsy();
-  });
-
-  describe('draw?', () => {
-    test('last', () => {
-      const board = new Board([
-        ["o", "x", "_"],
-        ["x", "o", "o"],
-        ["x", "o", "x"]
-      ]);
-      expect(board.isWin('o')).toBeFalsy();
-      expect(board.isWin('x')).toBeFalsy();
-      expect(board.isWinable('o')).toBeFalsy();
-      expect(board.isWinable('x')).toBeFalsy();
-      expect(board.isDraw()).toBeTruthy();
-    });
-
-    test('', () => {
-      const board = new Board([
-        ["_", "x", "x"],
-        ["x", "o", "o"],
-        ["x", "o", "o"]
-      ]);
-      expect(board.isWin('o')).toBeFalsy();
-      expect(board.isWin('x')).toBeFalsy();
-      expect(board.isWinable('o')).toBeTruthy();
-      expect(board.isWinable('x')).toBeFalsy();
-      expect(board.isDraw()).toBeFalsy();
-    });
   });
 });
 
@@ -338,7 +298,7 @@ describe('#status', () => {
 
   test('draw', () => {
     const board = new Board([
-      ["_", "x", "o"],
+      ["o", "x", "o"],
       ["x", "o", "o"],
       ["x", "o", "x"]
     ]);

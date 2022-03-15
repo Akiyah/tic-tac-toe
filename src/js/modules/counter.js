@@ -12,9 +12,6 @@ class Counter {
     }
 
     console.log(sum);
-    //console.log(keys[1]);
-    console.log(this.uniq(keys[1]));
-    console.log(this.uniq(keys[9]));
   }
 
   countKeys(board, keys, k = 0) {
@@ -43,12 +40,6 @@ class Counter {
     }
 
     console.log(sum);
-    //console.log(keys[1]);
-    console.log(this.uniq(keys[1]));
-    console.log(this.uniq(keys[9]));
-    this.uniq(keys[9]).forEach(key => {
-      console.log(key);
-    });
   }
 
   countNormalizeKeys(board, keys, k = 0) {

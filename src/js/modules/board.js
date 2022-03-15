@@ -99,28 +99,6 @@ class Board {
     });
   }
 
-  isWinable(mark) {
-    if (this.blankPoints().length == 0) {
-      return false;
-    }
-
-    if (this.blankPoints().length == 1 && mark === "x") {
-      return false;
-    }
-
-    return this.lines().some(line => {
-      return line.every(p => {
-        const x = p[0];
-        const y = p[1];
-        return this.mark(x, y) == mark || this.mark(x, y) == "_";
-      });
-    });
-  }
-
-  isDraw() {
-    return !this.isWinable("o") && !this.isWinable("x");
-  }
-
   status() {
     if (this.isWin("o")) {
       return "o win";
@@ -130,7 +108,7 @@ class Board {
       return "x win";
     }
 
-    if (this.isDraw()) {
+    if (this.blankPoints() == 0) {
       return "draw";
     }
 
