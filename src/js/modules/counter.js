@@ -35,15 +35,19 @@ class Counter {
 
     let sum = 0;
     for (let i = 0; i <= 9; i++) {
-      console.log(this.uniq(keys[i]).length);
-      sum += this.uniq(keys[i]).length;
+      console.log(keys[i].length);
+      sum += keys[i].length;
     }
 
     console.log(sum);
   }
 
   countNormalizeKeys(board, keys, k = 0) {
-    keys[k].push(board.normalize().key());
+    const key = board.normalize().key();
+    if (keys[k].includes(key)) {
+      return;
+    }
+    keys[k].push(key);
 
     const mark = ((k % 2 == 0) ? 'o' : 'x');
 
