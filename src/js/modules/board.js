@@ -90,13 +90,9 @@ class Board {
   }
 
   isWin(mark) {
-    return this.lines().some(line => {
-      return line.every(p => {
-        const x = p[0];
-        const y = p[1];
-        return this.mark(x, y) == mark;
-      });
-    });
+    return this.lines().some(line =>
+      line.every(([x, y]) => this.mark(x, y) == mark)
+    );
   }
 
   status() {
