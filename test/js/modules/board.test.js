@@ -220,11 +220,28 @@ test('#random', () => {
   expect(Math.max(...results)).toBe(9);
 });
 
-describe('#judgeWin', () => {
+test('#lines', () => {
+  const board = new Board();
+  expect(board.lines()).toEqual([
+    [[0, 0], [0, 1], [0, 2]], // |
+    [[1, 0], [1, 1], [1, 2]], // |
+    [[2, 0], [2, 1], [2, 2]], // |
+    [[0, 0], [1, 0], [2, 0]], // -
+    [[0, 1], [1, 1], [2, 1]], // -
+    [[0, 2], [1, 2], [2, 2]], // -
+    [[0, 0], [1, 1], [2, 2]], // \
+    [[0, 2], [1, 1], [2, 0]]  // /
+  ]);
+});
+
+describe('#isWin, #isWinable, #isDraw', () => {
   test('no winners', () => {
     const board = new Board();
-    expect(board.judgeWin('o')).toBeFalsy();
-    expect(board.judgeWin('x')).toBeFalsy();
+    expect(board.isWin('o')).toBeFalsy();
+    expect(board.isWin('x')).toBeFalsy();
+    expect(board.isWinable('o')).toBeTruthy();
+    expect(board.isWinable('x')).toBeTruthy();
+    expect(board.isDraw()).toBeFalsy();
   });
 
   test('o win', () => {
@@ -233,8 +250,11 @@ describe('#judgeWin', () => {
       ["x", "o", "x"],
       ["_", "o", "_"]
     ]);
-    expect(board.judgeWin('o')).toBeTruthy();
-    expect(board.judgeWin('x')).toBeFalsy();
+    expect(board.isWin('o')).toBeTruthy();
+    expect(board.isWin('x')).toBeFalsy();
+    expect(board.isWinable('o')).toBeTruthy();
+    expect(board.isWinable('x')).toBeTruthy();
+    expect(board.isDraw()).toBeFalsy();
   });
 
   test('x win', () => {
@@ -243,18 +263,52 @@ describe('#judgeWin', () => {
       ["_", "x", "_"],
       ["x", "o", "o"]
     ]);
-    expect(board.judgeWin('o')).toBeFalsy();
-    expect(board.judgeWin('x')).toBeTruthy();
+    expect(board.isWin('o')).toBeFalsy();
+    expect(board.isWin('x')).toBeTruthy();
+    expect(board.isWinable('o')).toBeFalsy();
+    expect(board.isWinable('x')).toBeTruthy();
+    expect(board.isDraw()).toBeFalsy();
   });
 
-  test('draw', () => {
+  test('winable', () => {
     const board = new Board([
-      ["o", "x", "o"],
-      ["x", "o", "o"],
-      ["x", "o", "x"]
+      ["o", "_", "x"],
+      ["_", "_", "_"],
+      ["x", "o", "o"]
     ]);
-    expect(board.judgeWin('o')).toBeFalsy();
-    expect(board.judgeWin('x')).toBeFalsy();
+    expect(board.isWin('o')).toBeFalsy();
+    expect(board.isWin('x')).toBeFalsy();
+    expect(board.isWinable('o')).toBeTruthy();
+    expect(board.isWinable('x')).toBeTruthy();
+    expect(board.isDraw()).toBeFalsy();
+  });
+
+  describe('draw?', () => {
+    test('last', () => {
+      const board = new Board([
+        ["o", "x", "_"],
+        ["x", "o", "o"],
+        ["x", "o", "x"]
+      ]);
+      expect(board.isWin('o')).toBeFalsy();
+      expect(board.isWin('x')).toBeFalsy();
+      expect(board.isWinable('o')).toBeFalsy();
+      expect(board.isWinable('x')).toBeFalsy();
+      expect(board.isDraw()).toBeTruthy();
+    });
+
+    test('', () => {
+      const board = new Board([
+        ["_", "x", "x"],
+        ["x", "o", "o"],
+        ["x", "o", "o"]
+      ]);
+      expect(board.isWin('o')).toBeFalsy();
+      expect(board.isWin('x')).toBeFalsy();
+      expect(board.isWinable('o')).toBeTruthy();
+      expect(board.isWinable('x')).toBeFalsy();
+      expect(board.isDraw()).toBeFalsy();
+    });
   });
 });
 
@@ -284,7 +338,7 @@ describe('#status', () => {
 
   test('draw', () => {
     const board = new Board([
-      ["o", "x", "o"],
+      ["_", "x", "o"],
       ["x", "o", "o"],
       ["x", "o", "x"]
     ]);

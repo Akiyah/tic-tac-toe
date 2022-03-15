@@ -80,36 +80,57 @@ class Board {
     return Math.floor(Math.random() * n);
   }
 
-  // judgeLines() {
-
-  judgeWin(mark) {
+  lines() {
     let lines = [];
-    lines = lines.concat([0, 1, 2].map(x => [0, 1, 2].map(y => [x, y])));
-    lines = lines.concat([0, 1, 2].map(y => [0, 1, 2].map(x => [x, y])));
-    lines = lines.concat([[0, 1, 2].map(i => [i, i])]);
-    lines = lines.concat([[0, 1, 2].map(i => [i, 2 - i])]);
+    lines = lines.concat([0, 1, 2].map(x => [0, 1, 2].map(y => [x, y]))); // |
+    lines = lines.concat([0, 1, 2].map(y => [0, 1, 2].map(x => [x, y]))); // -
+    lines = lines.concat([[0, 1, 2].map(i => [i, i])]); // \
+    lines = lines.concat([[0, 1, 2].map(i => [i, 2 - i])]); // /
+    return lines;
+  }
 
-    return lines.some(line => {
+  isWin(mark) {
+    return this.lines().some(line => {
       return line.every(p => {
-        let x = p[0];
-        let y = p[1];
+        const x = p[0];
+        const y = p[1];
         return this.mark(x, y) == mark;
       });
     });
   }
 
-  // judgeDraw() {
+  isWinable(mark) {
+    if (this.blankPoints().length == 0) {
+      return false;
+    }
+
+    if (this.blankPoints().length == 1 && mark === "x") {
+      return false;
+    }
+
+    return this.lines().some(line => {
+      return line.every(p => {
+        const x = p[0];
+        const y = p[1];
+        return this.mark(x, y) == mark || this.mark(x, y) == "_";
+      });
+    });
+  }
+
+  isDraw() {
+    return !this.isWinable("o") && !this.isWinable("x");
+  }
 
   status() {
-    if (this.judgeWin("o")) {
+    if (this.isWin("o")) {
       return "o win";
     }
 
-    if (this.judgeWin("x")) {
+    if (this.isWin("x")) {
       return "x win";
     }
 
-    if (this.blankPoints().length == 0) {
+    if (this.isDraw()) {
       return "draw";
     }
 
