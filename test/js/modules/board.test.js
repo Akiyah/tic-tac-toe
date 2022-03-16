@@ -26,6 +26,31 @@ describe('constructor', () => {
   });
 });
 
+test('.create', () => {
+  const key =
+    "___" + "\n" +
+    "x__" + "\n" +
+    "_o_";
+  const board = Board.create(key);
+  expect(board.marks).toEqual([
+    ["_", "_", "_"],
+    ["x", "_", "_"],
+    ["_", "o", "_"]
+  ]);
+});
+
+test('#key', () => {
+  let board = new Board();
+  board = board.step(1, 2, 'o');
+  board = board.step(0, 1, 'x');
+  expect(board.key()).toEqual(
+    "___" + "\n" +
+    "x__" + "\n" +
+    "_o_"
+  );
+});
+
+
 test('#mapPoints', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
@@ -75,17 +100,6 @@ test('#step', () => {
     ["x", "_", "_"],
     ["_", "o", "_"]
   ]);
-});
-
-test('#key', () => {
-  let board = new Board();
-  board = board.step(1, 2, 'o');
-  board = board.step(0, 1, 'x');
-  expect(board.key()).toEqual(
-    "___" + "\n" +
-    "x__" + "\n" +
-    "_o_"
-  );
 });
 
 test('#index', () => {

@@ -3,6 +3,19 @@ class Board {
     this.marks = marks;
   }
 
+  static create(key) {
+    const marks = key.split("\n").map(row => {
+      return row.split("");
+    });
+    return new Board(marks);
+  }
+
+  key() {
+    return this.marks.map(row =>
+      row.map(mark => mark).join("")
+    ).join("\n");
+  }
+
   mapPoints(callback) {
     return [0, 1, 2].map(y => [0, 1, 2].map(x => callback(x, y)));
   }
@@ -26,12 +39,6 @@ class Board {
     let marks = this.mapPoints((x0, y0) => this.mark(x0, y0));
     marks[y][x] = mark;
     return new Board(marks);
-  }
-
-  key() {
-    return this.marks.map(row =>
-      row.map(mark => mark).join("")
-    ).join("\n");
   }
 
   index() {
