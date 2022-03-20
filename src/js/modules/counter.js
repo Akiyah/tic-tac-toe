@@ -12,17 +12,19 @@ class Counter {
     }
 
     console.log(sum);
+    return keys;
   }
 
   countKeys(board, keys, k = 0) {
-    keys[k].push(board.key());
-
-    const mark = ((k % 2 == 0) ? 'o' : 'x');
+    const key = board.key();
+    if (keys[k].includes(key)) {
+      return;
+    }
+    keys[k].push(key);
 
     if (board.status() === "") {
-      board.blankPoints().map(p => {
-        const x = p[0];
-        const y = p[1];
+      const mark = ((k % 2 == 0) ? 'o' : 'x');
+      board.blankPoints().map(([x, y]) => {
         const nextBoard = board.step(x, y, mark);
         this.countKeys(nextBoard, keys, k + 1);
       });
@@ -40,6 +42,9 @@ class Counter {
     }
 
     console.log(sum);
+    //const util = require('util');
+    //console.log(util.inspect(keys[4], { maxArrayLength: null }));
+    return keys;
   }
 
   countNormalizeKeys(board, keys, k = 0) {
