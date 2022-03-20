@@ -42,17 +42,22 @@ test('.create', () => {
 test('.normalKeys', () => {
   const keys = Board.normalKeys();
 
-  expect(keys.length).toBe(10);
-  expect(keys[0].length).toBe(1);
-  expect(keys[1].length).toBe(3);
-  expect(keys[2].length).toBe(12);
-  expect(keys[3].length).toBe(38);
-  expect(keys[4].length).toBe(108);
-  expect(keys[5].length).toBe(174);
-  expect(keys[6].length).toBe(204);
-  expect(keys[7].length).toBe(153);
-  expect(keys[8].length).toBe(57);
-  expect(keys[9].length).toBe(15);
+  expect(keys.length).toBe(765);
+  expect(keys).toContain(
+    "___" + "\n" +
+    "___" + "\n" +
+    "___"
+  );
+  expect(keys).toContain(
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___"
+  );
+  expect(keys).not.toContain(
+    "___" + "\n" +
+    "x__" + "\n" +
+    "_o_"
+  );
 });
 
 test('#key', () => {
@@ -103,14 +108,14 @@ test('#markIndex', () => {
 
 test('#step', () => {
   let board = new Board();
-  board = board.step(1, 2, 'o');
+  board = board.step(1, 2);
   expect(board.marks).toEqual([
     ["_", "_", "_"],
     ["_", "_", "_"],
     ["_", "o", "_"]
   ]);
 
-  board = board.step(0, 1, 'x');
+  board = board.step(0, 1);
   expect(board.marks).toEqual([
     ["_", "_", "_"],
     ["x", "_", "_"],
