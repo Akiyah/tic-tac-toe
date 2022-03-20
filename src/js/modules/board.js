@@ -10,6 +10,24 @@ class Board {
     return new Board(marks);
   }
 
+  static normalKeys(board = new Board(), keys = [[], [], [], [], [], [], [], [], [], []], k = 0) {
+    const key = board.normalize().key();
+    if (keys[k].includes(key)) {
+      return;
+    }
+    keys[k].push(key);
+
+    if (board.status() === "") {
+      const mark = ((k % 2 == 0) ? 'o' : 'x');
+      board.blankPoints().map(([x, y]) => {
+        const nextBoard = board.step(x, y, mark);
+        this.normalKeys(nextBoard, keys, k + 1);
+      });
+    }
+
+    return keys;
+  }
+
   key() {
     return this.marks.map(row =>
       row.map(mark => mark).join("")

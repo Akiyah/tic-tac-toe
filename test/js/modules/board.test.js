@@ -39,6 +39,22 @@ test('.create', () => {
   ]);
 });
 
+test('.normalKeys', () => {
+  const keys = Board.normalKeys();
+
+  expect(keys.length).toBe(10);
+  expect(keys[0].length).toBe(1);
+  expect(keys[1].length).toBe(3);
+  expect(keys[2].length).toBe(12);
+  expect(keys[3].length).toBe(38);
+  expect(keys[4].length).toBe(108);
+  expect(keys[5].length).toBe(174);
+  expect(keys[6].length).toBe(204);
+  expect(keys[7].length).toBe(153);
+  expect(keys[8].length).toBe(57);
+  expect(keys[9].length).toBe(15);
+});
+
 test('#key', () => {
   let board = new Board();
   board = board.step(1, 2, 'o');
