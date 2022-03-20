@@ -49,12 +49,9 @@ class Counter {
     }
     keys[k].push(key);
 
-    const mark = ((k % 2 == 0) ? 'o' : 'x');
-
     if (board.status() === "") {
-      board.blankPoints().map(p => {
-        const x = p[0];
-        const y = p[1];
+      const mark = ((k % 2 == 0) ? 'o' : 'x');
+      board.blankPoints().map(([x, y]) => {
         const nextBoard = board.step(x, y, mark);
         this.countNormalizeKeys(nextBoard, keys, k + 1);
       });
