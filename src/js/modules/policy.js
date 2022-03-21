@@ -1,10 +1,14 @@
 const Board = require('./board');
 
 class Policy {
-  constructor() {
+  constructor(map) {
+    this.map = map;
+  }
+
+  static createRandomPolicy() {
     const keys = Board.normalKeys();
 
-    this.map = new Map(keys.map(key => {
+    const map = new Map(keys.map(key => {
       const board = Board.create(key);
       const points = board.blankPoints();
       const n = points.length;
@@ -18,6 +22,8 @@ class Policy {
       });
       return [key, actions];
     }));
+
+    return new Policy(Object.fromEntries(map));
   }
 }
 
