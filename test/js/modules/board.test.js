@@ -71,7 +71,6 @@ test('#key', () => {
   );
 });
 
-
 test('#mapPoints', () => {
   let board = new Board();
   board = board.step(1, 2);
