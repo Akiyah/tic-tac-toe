@@ -24,3 +24,28 @@ test('.createRandomPolicy', () => {
   expect(value.map[key2]).toEqual(0);
 });
 
+describe('#delta', () => {
+  const value1 = Value.createZeroValue();
+  const value2 = Value.createZeroValue();
+
+  expect(value1.delta(value2)).toEqual(0);
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  value1.map[key1] = 1;
+  value2.map[key1] = 0;
+
+  expect(value1.delta(value2)).toEqual(1);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  value1.map[key2] = -1;
+  value2.map[key2] = 2;
+
+  expect(value1.delta(value2)).toEqual(3);
+});
+
