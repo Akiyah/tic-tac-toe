@@ -339,3 +339,37 @@ describe('#status', () => {
     expect(board.status()).toEqual("draw");
   });
 });
+
+describe('#reword', () => {
+  test('no winners', () => {
+    const board = new Board();
+    expect(board.reword()).toBe(null);
+  });
+
+  test('o win', () => {
+    const board = new Board([
+      ["_", "o", "_"],
+      ["x", "o", "x"],
+      ["_", "o", "_"]
+    ]);
+    expect(board.reword()).toBe(1);
+  });
+
+  test('x win', () => {
+    const board = new Board([
+      ["o", "_", "x"],
+      ["_", "x", "_"],
+      ["x", "o", "o"]
+    ]);
+    expect(board.reword()).toBe(-1);
+  });
+
+  test('draw', () => {
+    const board = new Board([
+      ["o", "x", "o"],
+      ["x", "o", "o"],
+      ["x", "o", "x"]
+    ]);
+    expect(board.reword()).toBe(0);
+  });
+});

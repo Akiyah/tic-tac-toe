@@ -137,6 +137,22 @@ class Board {
 
     return "";
   }
+
+  reword() {
+    if (this.isWin("o")) {
+      return 1;
+    }
+
+    if (this.isWin("x")) {
+      return -1;
+    }
+
+    if (this.blankPoints() == 0) {
+      return 0;
+    }
+
+    return null;
+  }
 }
 
 module.exports = Board;
