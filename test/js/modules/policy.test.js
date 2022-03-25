@@ -58,7 +58,6 @@ test('#updateValueOnce', () => {
     "_x_" + "\n" +
     "o__" + "\n" +
     "___";
-  const b = 1 / 7;
   expect(value.map[key2]).toBe(0);
 
   const key3 =
@@ -75,5 +74,43 @@ test('#updateValueOnce', () => {
   // x:[2, 1]以外(5パターン) -> o:[2, 1]以外(4パターン) -> 決着がつかない
   // x:[2, 1]以外(5パターン) -> o:[2, 1](1パターン) -> o win
   expect(value.map[key4]).toEqual(expect.closeTo(5 / 6 * 1 / 5 * -1, 5));
+});
+
+test('#updateValue', () => {
+  const policy = Policy.createRandomPolicy();
+  const oldValue = Value.createZeroValue();
+
+  const value = policy.updateValue(oldValue);
+
+  /*
+  Object.keys(value.map).forEach(key => {
+    console.log(key);
+    console.log(value.map[key]);
+  });
+  */
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  expect(value.map[key1]).toEqual(0.4238095238095234);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  expect(value.map[key2]).toEqual(0.4285714285714286);
+
+  const key3 =
+    "_o_" + "\n" +
+    "xox" + "\n" +
+    "___";
+  expect(value.map[key3]).toEqual(0.8666666666666667);
+
+  const key4 =
+    "_x_" + "\n" +
+    "oo_" + "\n" +
+    "___";
+  expect(value.map[key4]).toEqual(-0.5666666666666667);
 });
 

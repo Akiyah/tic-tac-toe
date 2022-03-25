@@ -74,6 +74,18 @@ class Policy {
 
     return value;
   }
+
+  updateValue(oldValue) {
+    let value = oldValue;
+    let value0;
+
+    do {
+      value0 = value;
+      value = this.updateValueOnce(value0);
+    } while (0.001 < value.delta(value0));
+
+    return value;
+  }
 }
 
 module.exports = Policy;
