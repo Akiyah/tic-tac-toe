@@ -1,5 +1,5 @@
 const Policy = require('../../../src/js/modules/policy');
-
+const Value = require('../../../src/js/modules/value');
 
 test('constructor', () => {
   const map = { key1: 'value1', key2: 'value2' };
@@ -32,5 +32,48 @@ test('.createRandomPolicy', () => {
     [0, b, b],
     [b, b, b]
   ]);
+});
+
+test('#updateValueOnce', () => {
+  const policy = Policy.createRandomPolicy();
+  const oldValue = Value.createZeroValue();
+
+  const value = policy.updateValueOnce(oldValue);
+
+  /*
+  Object.keys(value.map).forEach(key => {
+    console.log(key);
+    console.log(value.map[key]);
+  });
+  */
+  expect(value.delta(oldValue)).toBe(1);
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  expect(value.map[key1]).toBe(0);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  const b = 1 / 7;
+  expect(value.map[key2]).toBe(0);
+
+  const key3 =
+    "_o_" + "\n" +
+    "xox" + "\n" +
+    "___";
+  expect(value.map[key3]).toEqual(expect.closeTo(1 / 5, 5));
+
+  const key4 =
+    "_x_" + "\n" +
+    "oo_" + "\n" +
+    "___";
+  // x:[2, 1](1パターン) -> 決着がつかない
+  // x:[2, 1]以外(5パターン) -> o:[2, 1]以外(4パターン) -> 決着がつかない
+  // x:[2, 1]以外(5パターン) -> o:[2, 1](1パターン) -> o win
+  expect(value.map[key4]).toEqual(expect.closeTo(5 / 6 * 1 / 5 * -1, 5));
 });
 
