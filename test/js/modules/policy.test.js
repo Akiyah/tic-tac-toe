@@ -102,25 +102,25 @@ test('#createValue', () => {
     "___" + "\n" +
     "___" + "\n" +
     "___";
-  expect(value.map[key1]).toEqual(0.4238095238095234);
+  expect(value.map[key1]).toEqual(0.2838471428571429);
 
   const key2 =
     "_x_" + "\n" +
     "o__" + "\n" +
     "___";
-  expect(value.map[key2]).toEqual(0.4285714285714286);
+  expect(value.map[key2]).toEqual(0.3202285714285716);
 
   const key3 =
     "_o_" + "\n" +
     "xox" + "\n" +
     "___";
-  expect(value.map[key3]).toEqual(0.8666666666666667);
+  expect(value.map[key3]).toEqual(0.7790000000000001);
 
   const key4 =
     "_x_" + "\n" +
     "oo_" + "\n" +
     "___";
-  expect(value.map[key4]).toEqual(-0.5666666666666667);
+  expect(value.map[key4]).toEqual(-0.5176666666666667);
 });
 
 test('#updatePolicyOne', () => {
@@ -197,9 +197,9 @@ test('#updatePolicy', () => {
     "xox" + "\n" +
     "___";
   expect(policy.map[key3]).toEqual([
-    [1, 0, 0],
     [0, 0, 0],
-    [0, 0, 0]
+    [0, 0, 0],
+    [0, 1, 0]
   ]);
 
   const key4 =

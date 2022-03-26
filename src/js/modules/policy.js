@@ -37,7 +37,7 @@ class Policy {
 
   updateValueOnce(oldValue) {
     const value = Value.createZeroValue();
-    const gamma = 1;
+    const gamma = 0.9;
 
     Object.keys(this.map).forEach(key => {
       let v = 0;
@@ -98,7 +98,7 @@ class Policy {
   updatePolicyOne() {
     const policy = Policy.createZeroPolicy();
     const value = this.createValue();
-    const gamma = 1;
+    const gamma = 0.9;
 
     Object.keys(this.map).forEach(key => {
       const board0 = Board.create(key);
@@ -158,7 +158,7 @@ class Policy {
     let policyOld;
 
     do {
-      console.log("x");
+      //console.log("x");
       policyOld = policy;
       policy = policyOld.updatePolicyOne();
     } while (0.001 < policy.delta(policyOld));
