@@ -21,24 +21,18 @@ class Policy {
   }
 
   static createRandomPolicy() {
-    const keys = Board.normalKeys();
+    const policy = Policy.createZeroPolicy();
 
-    const map = new Map(keys.map(key => {
+    Object.keys(policy.map).forEach(key => {
       const board = Board.create(key);
       const points = board.blankPoints();
       const n = points.length;
-      let actions = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
-      ];
       points.forEach(([x, y]) => {
-        actions[y][x] = 1 / n;
+        policy.map[key][y][x] = 1 / n;
       });
-      return [key, actions];
-    }));
+    });
 
-    return new Policy(Object.fromEntries(map));
+    return policy;
   }
 
   updateValueOnce(oldValue) {
