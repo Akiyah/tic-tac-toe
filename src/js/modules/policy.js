@@ -83,14 +83,14 @@ class Policy {
     return value;
   }
 
-  updateValue(oldValue) {
-    let value = oldValue;
-    let value0;
+  updateValue() {
+    let value = Value.createZeroValue();
+    let valueOld;
 
     do {
-      value0 = value;
-      value = this.updateValueOnce(value0);
-    } while (0.001 < value.delta(value0));
+      valueOld = value;
+      value = this.updateValueOnce(valueOld);
+    } while (0.001 < value.delta(valueOld));
 
     return value;
   }

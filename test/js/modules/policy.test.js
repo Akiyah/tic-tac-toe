@@ -62,15 +62,8 @@ test('.createRandomPolicy', () => {
 test('#updateValueOnce', () => {
   const policy = Policy.createRandomPolicy();
   const oldValue = Value.createZeroValue();
-
   const value = policy.updateValueOnce(oldValue);
 
-  /*
-  Object.keys(value.map).forEach(key => {
-    console.log(key);
-    console.log(value.map[key]);
-  });
-  */
   expect(value.delta(oldValue)).toBe(1);
 
   const key1 =
@@ -103,16 +96,7 @@ test('#updateValueOnce', () => {
 
 test('#updateValue', () => {
   const policy = Policy.createRandomPolicy();
-  const oldValue = Value.createZeroValue();
-
-  const value = policy.updateValue(oldValue);
-
-  /*
-  Object.keys(value.map).forEach(key => {
-    console.log(key);
-    console.log(value.map[key]);
-  });
-  */
+  const value = policy.updateValue();
 
   const key1 =
     "___" + "\n" +
