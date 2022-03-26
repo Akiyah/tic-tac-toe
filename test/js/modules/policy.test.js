@@ -7,6 +7,31 @@ test('constructor', () => {
   expect(policy.map).toBe(map);
 });
 
+test('.createZeroPolicy', () => {
+  const policy = Policy.createZeroPolicy();
+  expect(Object.keys(policy.map).length).toBe(765);
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  expect(policy.map[key1]).toEqual([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  expect(policy.map[key2]).toEqual([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+});
+
 test('.createRandomPolicy', () => {
   const policy = Policy.createRandomPolicy();
   expect(Object.keys(policy.map).length).toBe(765);

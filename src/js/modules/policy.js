@@ -6,6 +6,20 @@ class Policy {
     this.map = map;
   }
 
+  static createZeroPolicy() {
+    const keys = Board.normalKeys();
+
+    const map = new Map(keys.map(key => {
+      return [key, [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+      ]];
+    }));
+
+    return new Policy(Object.fromEntries(map));
+  }
+
   static createRandomPolicy() {
     const keys = Board.normalKeys();
 
