@@ -94,9 +94,9 @@ test('#updateValueOnce', () => {
   expect(value.map[key4]).toEqual(expect.closeTo(5 / 6 * 1 / 5 * -1, 5));
 });
 
-test('#updateValue', () => {
+test('#createValue', () => {
   const policy = Policy.createRandomPolicy();
-  const value = policy.updateValue();
+  const value = policy.createValue();
 
   const key1 =
     "___" + "\n" +
@@ -123,3 +123,114 @@ test('#updateValue', () => {
   expect(value.map[key4]).toEqual(-0.5666666666666667);
 });
 
+test('#updatePolicyOne', () => {
+  const policyOld = Policy.createRandomPolicy();
+  const policy = policyOld.updatePolicyOne();
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  expect(policy.map[key1]).toEqual([
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0]
+  ]);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  expect(policy.map[key2]).toEqual([
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0]
+  ]);
+
+  const key3 =
+    "_o_" + "\n" +
+    "xox" + "\n" +
+    "___";
+  expect(policy.map[key3]).toEqual([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 1, 0]
+  ]);
+
+  const key4 =
+    "_x_" + "\n" +
+    "oo_" + "\n" +
+    "___";
+  expect(policy.map[key4]).toEqual([
+    [0, 0, 1],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+});
+
+test('#updatePolicy', () => {
+  const policyOld = Policy.createRandomPolicy();
+  const policy = policyOld.updatePolicy();
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  expect(policy.map[key1]).toEqual([
+    [1, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  expect(policy.map[key2]).toEqual([
+    [1, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+
+  const key3 =
+    "_o_" + "\n" +
+    "xox" + "\n" +
+    "___";
+  expect(policy.map[key3]).toEqual([
+    [1, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ]);
+
+  const key4 =
+    "_x_" + "\n" +
+    "oo_" + "\n" +
+    "___";
+  expect(policy.map[key4]).toEqual([
+    [0, 0, 0],
+    [0, 0, 1],
+    [0, 0, 0]
+  ]);
+});
+
+describe('#delta', () => {
+  const policy1 = Policy.createZeroPolicy();
+  const policy2 = Policy.createZeroPolicy();
+
+  expect(policy1.delta(policy2)).toEqual(0);
+
+  const key1 =
+    "___" + "\n" +
+    "___" + "\n" +
+    "___";
+  policy1.map[key1][1][2] = 1;
+  expect(policy1.delta(policy2)).toEqual(1);
+
+  const key2 =
+    "_x_" + "\n" +
+    "o__" + "\n" +
+    "___";
+  policy1.map[key2][1][2] = -1;
+  policy2.map[key2][1][2] = 1;
+  expect(policy1.delta(policy2)).toEqual(2);
+});
