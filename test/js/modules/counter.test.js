@@ -33,3 +33,11 @@ test('#countNormalize', () => {
   expect(keys[8].length).toBe(57);
   expect(keys[9].length).toBe(15);
 });
+
+test('#createPolicyValueMap', () => {
+  const counter = new Counter();
+  const map = counter.createPolicyValueMap();
+
+  const util = require('util');
+  console.log(util.inspect(map, { maxArrayLength: null, depth: null }));
+});
